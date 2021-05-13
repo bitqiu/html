@@ -1,0 +1,73 @@
+<!DOCTYPE html><html><head><meta http-equiv=Expires content=0><meta http-equiv=Expires content="Tue, 01 Jan 1980 1:00:00 GMT"><meta http-equiv=Pragma content=no-cache><meta http-equiv=Cache-control content=no-cache><meta http-equiv=Cache content=no-cache><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"><meta http-equiv=X-UA-Compatible content="IE=Edge"><title>Bitfin</title><link rel=stylesheet href=//at.alicdn.com/t/font_967029_r2ojsvlqcwn.css><script src=static/serverconfig.js></script><script type=text/javascript src=static/charting_library.min.tommy.js></script><script type=text/javascript src=static/polyfills.tommy.js></script><script type=text/javascript src=static/bundle.tommy.js></script><script>var time = new Date().getTime();
+    document.write("<script type='text/javascript' src='https://hq.sinajs.cn/rn=" + time + "list=fx_susdcny'></s" + "cript>")</script><link href=/static/css/app.8b03f234a2ab3df3028c4a1635be5a46.css rel=stylesheet></head><body><div id=app></div><script type=text/javascript src=/static/js/manifest.d983924a139e15dc8323.js></script><script type=text/javascript src=/static/js/vendor.095b7f6c47042db1fce1.js></script><script type=text/javascript src=/static/js/app.8d8826c1666a08aee9f2.js></script></body><script>(function (w) {
+      w.ajax = function () {
+        var ajaxData = {
+          type: arguments[0].type || "GET",
+          url: arguments[0].url || "",
+          async: arguments[0].async || "true",
+          data: arguments[0].data || null,
+          dataType: arguments[0].dataType || "text",
+          contentType: arguments[0].contentType || "application/x-www-form-urlencoded",
+          beforeSend: arguments[0].beforeSend ||
+            function () { },
+          success: arguments[0].success ||
+            function () { },
+          error: arguments[0].error ||
+            function () { }
+        }
+        var url = ajaxData.url;
+        if (ajaxData.type === "GET") {
+          url += "?" + convertData(ajaxData.data);
+        }
+        ajaxData.beforeSend()
+        var xhr = createxmlHttpRequest();
+        xhr.responseType = ajaxData.dataType;
+        xhr.open(ajaxData.type, url, ajaxData.async);
+        xhr.setRequestHeader("Content-Type", ajaxData.contentType);
+        if (ajaxData.type === "GET") {
+          xhr.send();
+        } else {
+          xhr.send(convertData(ajaxData.data));
+        }
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState == 4) {
+            if (xhr.status == 200) {
+              ajaxData.success(xhr.response)
+            } else {
+              ajaxData.error()
+            }
+          }
+        }
+      }
+      function createxmlHttpRequest() {
+        if (window.ActiveXObject) {
+          return new ActiveXObject("Microsoft.XMLHTTP");
+        } else if (window.XMLHttpRequest) {
+          return new XMLHttpRequest();
+        }
+      }
+      function convertData(data) {
+        if (typeof data === 'object') {
+          var convertResult = "";
+          for (var c in data) {
+            convertResult += c + "=" + data[c] + "&";
+          }
+          convertResult = convertResult.substring(0, convertResult.length - 1)
+          return convertResult;
+        } else {
+          return data;
+        }
+      }
+    })(window);</script><script>TradingView.onready(function () { TradingView.ready = true; })</script><script>var arr = hq_str_fx_susdcny.split(",");
+  var cny;
+  var usd;
+  var rate;
+  cny = arr[1];
+  ajax({
+    url: 'https://api.coincap.io/v2/rates/tether',
+    success: function (res) {
+      usd = JSON.parse(res).data.rateUsd
+      rate = (parseFloat(usd) * parseFloat(cny)).toFixed(2);
+      vv.$store.commit("changeRate", parseFloat(rate))
+    }
+  });</script></html>
